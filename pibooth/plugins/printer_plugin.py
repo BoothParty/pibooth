@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import pibooth
+import os
+import cv2
 from pibooth.utils import LOGGER
 
 
@@ -15,8 +17,22 @@ class PrinterPlugin(object):
         self._pm = plugin_manager
 
     def print_picture(self, cfg, app):
+        picture_file = app.previous_picture_file
+        border_size = cfg.getint('PICTURE', 'borderless_additional_border')
+        
+        if border_size > 0:
+            LOGGER.info("Adding border of size %d to the picture", border_size)
+            image_path = picture_file
+            image = cv2.imread(image_path)
+            bordered_image = cv2.copyMakeBorder(image, border_size, border_size, border_size, border_size, cv2.BORDER_CONSTANT, value=[255, 255, 255])
+            
+            output_dir = os.path.join(os.path.dirname(image_path), 'bordered_pictures')
+            os.makedirs(output_dir, exist_ok=True)
+            picture_file = os.path.join(output_dir, os.path.basename(image_path))
+            cv2.imwrite(picture_file, bordered_image)
+            
         LOGGER.info("Send final picture to printer")
-        app.printer.print_file(app.previous_picture_file,
+        app.printer.print_file(picture_file,
                                cfg.getint('PRINTER', 'pictures_per_page'))
         app.count.printed += 1
         app.count.remaining_duplicates -= 1

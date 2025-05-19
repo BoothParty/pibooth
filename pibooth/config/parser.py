@@ -172,6 +172,10 @@ DEFAULT = odict((
                 ((255, 255, 255),
                  "Background RGB color or image path (list of tuples or quoted paths accepted)",
                  None, None)),
+            ("borderless_additional_border",
+                (0,
+                 "Additional border in pixels for borderless prints",
+                 "Additional border", [str(i) for i in range(0, 201, 5)])),
         ))
      ),
     ("CAMERA",
