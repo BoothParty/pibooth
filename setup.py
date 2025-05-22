@@ -88,7 +88,8 @@ def main():
                                           "pibooth-diag = pibooth.scripts.diagnostic:main",
                                           "pibooth-fonts = pibooth.scripts.fonts:main",
                                           "pibooth-regen = pibooth.scripts.regenerate:main",
-                                          "pibooth-printcfg = pibooth.scripts.printer:main"]},
+                                          "pibooth-printcfg = pibooth.scripts.printer:main",
+                                          "pibooth-config = pibooth.scripts.config:main"]},
     )
 
 
